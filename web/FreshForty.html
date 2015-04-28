@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://sp-bootstrap.global.ssl.fastly.net/5.2.0/sp-bootstrap.min.css" rel="stylesheet">
+    <link href='styles.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="images/favicon.png">
+    <title>Fresh 40</title>
+</head>
+  <body >
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="">
+            <span class="navbar-logo">Spotify</span>
+            <span class="navbar-title">Fresh 40</span>
+          </a>
+        </div>
+            <div class="navbar-collapse collapse">
+              <a href="http://spotify.com/" 
+                class="btn btn-primary navbar-btn navbar-right">Get Spotify</a>
+            </div>
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div id='top' class="jumbotron">
+      <div class="container-fluid" id="jumbo-dialog">
+        <h1 id='attitle' >The Fresh 40</h1>
+        <div id='extra-text'>
+            <p  class="lead">  
+                These are the the top 40 fresh artists on Spotify based upon a
+                combination of followers, artist and album popularity for
+                artists that have released their first album on Spotify in the
+                last two weeks. Updated daily.
+            </p>
+        </div>
+        <div id='info' class="text-center">
+           <img class='spinner' width='100px' src='images/ajaxSpinner.gif'>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid work text-center">
+       <h2> The Fresh 40 for <span class='date'> </span> </h2>
+       <table id='album-table' class="table text-center">
+            <thead> </thead>
+            <tbody id="albums"> 
+            </tbody>
+       </table>
+    </div>
+
+    <br clear='both'>
+    <div id="footer">
+      <div class="container text-center">
+            Built by <a href="http://twitter.com/plamere">@plamere</a>.
+            More info on <a
+            href="http://musicmachinery.com/2015/04/27/the-fresh-40/">Music Machinery</a>.
+            <br>
+            Version 1.0 - April 27, 2015
+            <br>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script>
+"use strict";
+
+var newReleases = null;
+var audio = $("<audio>");
+var albumSize = 300;
+
+function loadNewReleases(path, callback) {
+    var now = new Date().toString();
+    $.getJSON(path, { _:now} ).then(
+        callback,
+        function() {
+            error('trouble loading the new release data, try again later');
+        });
+}
+
+function fmtDate(date) {
+    return date.substring(0,10)
+}
+
+function showInfo() {
+    $('.date').text(fmtDate(newReleases.date));
+    $('.fresh-faces').text(newReleases.albums.length);
+    $('.total-releases').text(newReleases.new_albums);
+}
+
+var nowPlaying = null;
+
+function playAlbum(album) {
+    if (album == nowPlaying) {
+        console.log('pause', album.tracks[0].preview_url);
+        if (audio.get(0).paused) {
+            audio.get(0).play();
+        } else {
+            audio.get(0).pause();
+        }
+    } else {
+        console.log('play', album.tracks[0].preview_url);
+        audio.attr('src', album.tracks[0].preview_url);
+        audio.get(0).play();
+        nowPlaying = album;
+    }
+}
+
+function showAlbum(tdiv, album, which) {
+    var row = $("<tr>");
+
+    var rankdiv = $("<div>");
+    var rankCounter = $("<div>")
+        .addClass('t40-rank')
+        .text(which + 1);
+
+    var rankinfo = $("<span>")
+        .addClass('t40-rankinfo')
+        .attr('title', "Yesterday's rank");
+
+    var iconclass =  "glyphicon-resize-horizontal";
+    if (album.delta_rank == 'up') {
+        iconclass = "glyphicon-chevron-up green";
+    } else if (album.delta_rank == 'down') {
+        iconclass = "glyphicon-chevron-down red";
+    }
+    var diricon = $("<span>")
+        .addClass('glyphicon')
+        .addClass(iconclass)
+
+    rankinfo.append(diricon);
+    var rrank = $("<span>");
+    rrank.addClass('rrank');
+    if (album.prev_rank >= 0) {
+        rrank.text(album.prev_rank + 1);
+    } else {
+        rrank.text('-');
+    }
+    rankinfo.append(rrank);
+    rankdiv.append(rankCounter);
+    rankdiv.append(rankinfo);
+
+    row.append( $("<td>").append(rankdiv));
+
+    var img = $("<img>")
+        .attr('src', album.image_med)
+        .addClass('t40-img')
+        .addClass('pull-left');
+
+    img.on('click', function() {
+        console.log('clicked', album);
+        playAlbum(album);
+    });
+
+    row.append( $("<td>").append(img));
+
+    var info = $("<div>");
+    var title = $("<h2>").append( 
+        $("<a>").text(album.name)
+                .attr('href', album.uri)
+        );
+    info.append(title);
+
+    var artist = $("<h3>").append( 
+        $("<a>").text(album.artist_name)
+                .attr('href', album.artist_uri)
+        );
+
+    info.append(artist);
+    info.append($("<br>"));
+
+    addNumber(info, 'Score', album.score.toFixed(2));
+    addNumber(info, 'Days On Chart', album.days_on_chart + 1);
+    addNumber(info, 'followers', numberWithCommas(album.artist_followers));
+    addNumber(info, 'Artist popularity', numberWithCommas(album.artist_popularity));
+    addNumber(info, 'Album popularity', numberWithCommas(album.popularity));
+    info.addClass('t40-info');
+
+    row.append($("<td>").append(info));
+    tdiv.append(row);
+}
+
+function addNumber(elem, name, val) {
+    var div = $("<div>").addClass('valbox');
+    var vdiv = $("<div>").addClass('valval').text(val);
+    var ndiv = $("<div>").addClass('vallabel').text(name);
+    div.append(vdiv);
+    div.append(ndiv);
+    elem.append(div);
+}
+
+function numberWithCommas(x) {
+    if (x == null || isNaN(x)) {
+        return '0';
+    } else {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+}
+
+function showAlbums() {
+    var div = $("#albums");
+    div.empty();
+    var albums = newReleases.albums;
+    _.each(albums, function(album, which) {
+        showAlbum(div, album, which);
+    });
+}
+
+function showNewReleases(data) {
+    newReleases = data;
+    showInfo();
+    startShowingAlbums();
+}
+
+function startShowingAlbums() {
+    showAlbums();
+}
+
+
+function initApp() {
+    loadNewReleases('quick_releases.js', function(data) {
+        $(".spinner").hide();
+        showNewReleases(data);
+    });
+}
+
+
+function error(msg) {
+    info(msg);
+}
+
+function info(msg) {
+    $("#info").text(msg);
+}
+
+$(document).ready(
+    function() {
+        initApp();
+    }
+);
+
+</script>
+</body>
+</html>

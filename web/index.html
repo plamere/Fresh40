@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://sp-bootstrap.global.ssl.fastly.net/5.2.0/sp-bootstrap.min.css" rel="stylesheet">
+    <link href='styles.css' rel='stylesheet'>
+    <title>Fresh Faces</title>
+  <script src="lib/pace.min.js"></script>
+        <link href="lib/pace2.css" rel="stylesheet" />
+</head>
+  <body >
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="">
+            <span class="navbar-logo">Spotify</span>
+            <span class="navbar-title">Fresh Faces</span>
+          </a>
+        </div>
+            <div class="navbar-collapse collapse">
+              <a href="http://spotify.com/" 
+                class="btn btn-primary navbar-btn navbar-right">Get Spotify</a>
+            </div>
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div id='top' class="jumbotron">
+      <div class="container-fluid" id="jumbo-dialog">
+        <h1 id='attitle' >Fresh Faces</h1>
+        <div id='extra-text'>
+            <p  class="lead">  
+                In the last two weeks, each of these artists have released 
+                their first album on Spotify.
+            </p>
+        </div>
+        <div id='info' class="text-center">
+           <img class='spinner' width='100px' src='images/ajaxSpinner.gif'>
+        </div>
+      </div>
+    </div>
+
+    <div id="info-modal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" 
+                data-dismiss="modal" 
+                    aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">
+                <a class="modal-album-link"> album </a> by
+                <a class="modal-artist-link"> Artist </a>
+            </h4>
+             <b> Released on: </b> <span class="modal-release-date"> </span>
+             <span class='pull-right'>
+             <b> Artist popularity: </b> <span class="modal-apop"> </span>
+             </span>
+            <br>
+                <b> Album popularity: </b> <span class="modal-pop"> </span> 
+             <span class="pull-right">
+                 <b> Artist followers: </b> <span class="modal-followers"> </span>
+             </span>
+            <br>
+                <b> Overall score: </b> <span class="modal-score"> </span> 
+             <span class="pull-right">
+                 <b> Days: </b> <span class="modal-days"> </span>
+             </span>
+            <br>
+                <b> Rank: </b> <span class="modal-rank"> </span> 
+             <span class="pull-right">
+                 <b> Yesterday's rank: </b> <span class="modal-yrank"> </span>
+             </span>
+          </div>
+          <div class="modal-body"> 
+            <img class="modal-image">
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="container-fluid work">
+       <div>
+       <label> Sort releases by: </label>
+           <select id="sort-style" class="iform-control">
+            <option value='sort-score' selected=selected> Score</option>
+            <option value='sort-artist-popularity'> Artist popularity </option>
+            <option value='sort-artist-followers' > Artist followers</option>
+            <option value='sort-release-date'> Release Date </option>
+            <option value='sort-reverse-release-date'> Reverse Release Date </option>
+            <option value='sort-album-popularity'> Album popularity  </option>
+           </select>
+       </div>
+       <br>
+       <div class='buttons btn-group'>
+            <button class='page-button btn-first-page btn btn-primary'>  
+                <span class="glyphicon glyphicon-fast-backward"
+                aria-hidden="true"></span>
+            </button>
+
+            <button  class='page-button btn-prev-page btn btn-primary'> 
+                <span class="glyphicon glyphicon-chevron-left"
+                aria-hidden="true"></span>
+            </button>
+
+            <button class='page-button btn-next-page btn btn-primary'> 
+                <span class="glyphicon glyphicon-chevron-right"
+                aria-hidden="true"></span>
+            </button>
+
+            <button class='page-button btn-last-page btn btn-primary'> 
+                <span class="glyphicon glyphicon-fast-forward"
+                aria-hidden="true"></span>
+            </button>
+       </div>
+       <div class="my-pager container text-center">
+            Page <span class='cur-page'> 0 </span> of 
+                <span class='num-pages'> 100 </span>
+           <br>
+       </div>
+       <div class="results text-center" id='albums'> </div>
+       <div class='buttons btn-group'>
+            <button class='page-button btn-first-page btn btn-primary'>  
+                <span class="glyphicon glyphicon-fast-backward"
+                aria-hidden="true"></span>
+            </button>
+
+            <button  class='page-button btn-prev-page btn btn-primary'> 
+                <span class="glyphicon glyphicon-chevron-left"
+                aria-hidden="true"></span>
+            </button>
+
+            <button class='page-button btn-next-page btn btn-primary'> 
+                <span class="glyphicon glyphicon-chevron-right"
+                aria-hidden="true"></span>
+            </button>
+
+            <button class='page-button btn-last-page btn btn-primary'> 
+                <span class="glyphicon glyphicon-fast-forward"
+                aria-hidden="true"></span>
+            </button>
+       </div>
+       <div class="my-pager container text-center">
+            Page <span class='cur-page'> 0 </span> of 
+                <span class='num-pages'> 100 </span>
+       </div>
+       <div class="container text-center">
+            On <span class='date'> 2015-01-01 </span> there are
+            <span class='fresh-faces'> 0 </span> fresh faces
+            out of a total of <span class='total-releases'> </span> new releases.
+       </div>
+    </div>
+
+    <div class="row chart col-sm12 chart" id="release-histogram"></div>
+    <div id="footer">
+      <div class="container text-center">
+            Built by <a href="http://twitter.com/plamere">@plamere</a>.
+            More info on <a
+            href="http://musicmachinery.com/2015/04/26/fresh-faces-on-spotify/">Music Machinery</a>.
+            <br>
+            Version 1.0 - April 27, 2015
+            <br>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script>
+"use strict";
+
+
+var pageSize = 24;
+var curPage = 0;
+var newReleases = null;
+var audio = $("<audio>");
+
+var albumSize = 300;
+
+function loadNewReleases(path, callback) {
+    $.getJSON(path).then(
+        callback,
+        function() {
+            error('trouble loading the new release data, try again later');
+        });
+}
+
+function fmtDate(date) {
+    return date.substring(0,10)
+}
+
+function showInfo() {
+    $('.date').text(fmtDate(newReleases.date));
+    $('.fresh-faces').text(newReleases.albums.length);
+    $('.total-releases').text(newReleases.new_albums);
+}
+
+var nowPlaying = null;
+function playAlbum(album) {
+    if (album == nowPlaying) {
+        if (audio.get(0).paused) {
+            audio.get(0).play();
+        } else {
+            audio.get(0).pause();
+        }
+    } else {
+        audio.attr('src', album.tracks[0].preview_url);
+        audio.get(0).play();
+        nowPlaying = album;
+    }
+}
+
+function showAlbumInfo(album) {
+    $(".modal-artist-link") .text(album.artist_name)
+        .attr('href', album.artist_uri);
+    $(".modal-album-link") .text(album.name)
+        .attr('href', album.uri);
+    $(".modal-image").attr('src', album.artist_image);
+    $(".modal-release-date").text(album.release_date);
+    $(".modal-pop").text(album.popularity);
+    $(".modal-apop").text(album.artist_popularity);
+    $(".modal-followers").text(album.artist_followers);
+    $(".modal-score").text(album.score.toFixed(2));
+    $(".modal-rank").text(album.rank + 1);
+    $(".modal-yrank").text(album.prev_rank + 1);
+    $(".modal-days").text(album.days_on_chart + 1);
+    $("#info-modal").modal();
+}
+
+function showAlbum(tdiv, album) {
+    var div = $("<div>")
+        .addClass('album');
+
+    var info = $('<a class="glyphicon glyphicon-asterisk">')
+        .addClass("pull-left")
+        .addClass("btn-album-info"); 
+    div.append(info);
+    info.hide();
+    info.on('click', function(e) {
+        showAlbumInfo(album);
+    });
+
+    var spotify = $('<a class="glyphicon glyphicon-share-alt">') 
+        .attr('href', album.uri)
+        .addClass('btn-spotify')
+        .addClass('pull-right');
+
+
+    spotify.hide();
+
+    div.append(spotify);
+
+
+    var image = album.image_med;
+    if (image) {
+        div.css('background-image', 'url(' + image +')');
+    }
+
+    div.on('click', function() {
+        playAlbum(album);
+    });
+
+    div.hover(
+        function() {
+            info.show();
+            spotify.show();
+        },
+        function() {
+            info.hide();
+            spotify.hide();
+        }
+    );
+
+    tdiv.append(div);
+}
+
+function nextPage() {
+    if (curPage < numPages() - 1) {
+        curPage++;
+        showAlbums();
+    }
+}
+
+function prevPage() {
+    if ( (curPage - 1) >= 0) {
+        curPage--;
+        showAlbums();
+    }
+}
+
+function firstPage() {
+    curPage = 0;
+    showAlbums();
+}
+
+function lastPage() {
+    curPage = numPages() - 1;
+    showAlbums();
+}
+
+function numPages() {
+    return Math.ceil(newReleases.albums.length / pageSize);
+}
+
+
+function getCurAlbums() {
+    var start = curPage * pageSize;
+    var len = pageSize;
+    return newReleases.albums.slice(start, start + len);
+}
+
+function showAlbums() {
+    var div = $("#albums");
+    div.empty();
+    var albums = getCurAlbums();
+    _.each(albums, function(album, which) {
+        showAlbum(div, album);
+    });
+    $(".cur-page").text(curPage + 1);
+    $(".num-pages").text(numPages());
+}
+
+function showNewReleases(data) {
+    newReleases = data;
+    showInfo();
+    startShowingAlbums();
+}
+
+var sorters = {
+    'sort-score': function(a,b) {
+        return b.score - a.score;
+    },
+
+    'sort-artist-popularity': function(a,b) {
+        return b.artist_popularity - a.artist_popularity;
+    },
+
+    'sort-artist-followers': function(a,b) {
+        return b.artist_followers - a.artist_followers;
+    },
+
+    'sort-album-popularity': function(a,b) {
+        return b.popularity - a.popularity;
+    },
+
+    'sort-release-date': function(a,b) {
+        return a.release_date.localeCompare(b.release_date);
+    },
+    'sort-reverse-release-date': function(a,b) {
+        return b.release_date.localeCompare(a.release_date);
+    }
+}
+
+function startShowingAlbums() {
+    var sstyle = $("#sort-style").val();
+    var sorter = sorters[sstyle];
+    newReleases.albums.sort(sorter);
+    curPage = 0;
+    showAlbums();
+}
+
+
+function initApp() {
+    loadNewReleases('quick_releases.js?v11', function(data) {
+        $(".spinner").hide();
+        showNewReleases(data);
+        drawReleaseHistogram('release-histogram', data);
+        loadNewReleases('new_releases.js?v11', function(data) {
+            $(".page-button").prop('disabled', false);
+            showNewReleases(data);
+        });
+    });
+
+    $(".btn-first-page").on("click", firstPage);
+    $(".btn-last-page").on("click", lastPage);
+    $(".btn-prev-page").on("click", prevPage);
+    $(".btn-next-page").on("click", nextPage);
+
+    $(".page-button").prop('disabled', true);
+
+    $("#sort-style").on('change', function() {
+        startShowingAlbums();
+    });
+}
+
+
+function error(msg) {
+    info(msg);
+}
+
+function info(msg) {
+    $("#info").text(msg);
+}
+
+function drawReleaseHistogram(elem, data) {
+    var allHist = data.release_date_hist;
+    var freshHist = data.fresh_date_hist;
+    var dates = Object.keys(allHist);
+    dates.sort();
+
+    var chart = new google.visualization.ColumnChart(document.getElementById(elem));
+    var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn('string', 'Date');
+    dataTable.addColumn('number', 'Recurring');
+    dataTable.addColumn('number', 'Fresh');
+
+    var sortedRows = [];
+    _.each(dates, function(date) {
+        var total = allHist[date];
+        var fresh = 0;
+        if (date in freshHist) {
+            fresh = freshHist[date];
+        }
+        var regular = total - fresh;
+        sortedRows.push([date, regular, fresh]);
+    });
+
+    dataTable.addRows(sortedRows);
+    var dataView = new google.visualization.DataView(dataTable);
+    var options = {
+        title: 'Fresh and recurring releases by date',
+        isStacked:true,
+        hAxis: {
+            slantedText:true,
+            slantedTextAngle: -70,
+        },
+        chartArea: {
+            height:200
+        }
+    }
+    chart.draw(dataView, options);
+}
+
+(function($,sr){
+
+  // debouncing function from John Hann
+  // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+  var debounce = function (func, threshold, execAsap) {
+      var timeout;
+
+      return function debounced () {
+          var obj = this, args = arguments;
+          function delayed () {
+              if (!execAsap)
+                  func.apply(obj, args);
+              timeout = null;
+          };
+
+          if (timeout)
+              clearTimeout(timeout);
+          else if (execAsap)
+              func.apply(obj, args);
+
+          timeout = setTimeout(delayed, threshold || 100);
+      };
+  }
+  // smartresize 
+  jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) :
+this.trigger(sr); };
+
+})(jQuery,'smartresize');
+
+
+$(window).smartresize(function () {
+    // if the window resizes, redraw the charts so they
+    // can auto resize with the window
+    if (newReleases) {
+        drawReleaseHistogram('release-histogram', newReleases);
+    }
+});
+
+
+google.load('visualization', '1.0', {'packages':['corechart']});
+
+$(document).ready(
+    function() {
+        initApp();
+    }
+);
+
+</script>
+</body>
+</html>

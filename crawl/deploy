@@ -1,0 +1,1 @@
+rsync -avz . echonest@labs2.echonest.com:apps/FreshFaces/

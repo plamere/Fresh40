@@ -1,0 +1,125 @@
+.album {
+    margin-bottom:0px;
+    width:300px;
+    height:300px;
+    text-align:center;
+    display:inline-block;
+}
+
+.t40-album {
+    margin-bottom:0px;
+    width:300px;
+    height:300px;
+    text-align:center;
+}
+
+.t40-info {
+    margin-bottom:0px;
+    text-align:center;
+    display:inline-block;
+}
+
+.t40-img {
+    vertical-align: middle;
+}
+
+.t40-img:hover {
+    cursor:pointer;
+}
+
+.t40-album {
+    margin-bottom:0px;
+    width:300px;
+    height:300px;
+    text-align:center;
+}
+
+.t40-rank {
+    font-size:100px;
+    margin-bottom:0px;
+    /*line-height:100%;*/
+}
+
+.t40-rankinfo {
+    font-size:18px;
+}
+
+.album-img {
+    border:0px;
+    margin:0px;
+    width:300px;
+    height:300px;
+}
+
+.buttons {
+    margin-bottom:10px;
+}
+
+.work {
+    text-align:center;
+}
+
+.btn-album-info {
+    font-size:2.0em;
+    color:rgb(132,189,0)
+}
+
+.btn-spotify {
+    font-size:2.0em;
+    color:rgb(132,189,0)
+}
+
+.my-pager {
+    margin-top:8px;
+    margin-bottom:10px;
+}
+
+#release-histogram {
+    height:350px;
+    margin-bottom:20px;
+}
+
+.modal-title {
+    font-size:32px;
+}
+
+.spinner {
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.valbox {
+    margin-bottom:10px;
+    text-align:center;
+    display:inline-block;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.valval {
+    font-size:22px;
+}
+
+
+.vallabel {
+    font-size:10px;
+}
+
+.rrank {
+    margin-left:10px;
+}
+
+.green {
+    color:rgb(132,189,0)
+}
+
+.red {
+    color:rgb(229,112,0)
+}
+
+#album-table {
+    max-width:1000px;
+    margin: 0 auto;
+}
