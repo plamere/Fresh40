@@ -1,2 +1,2 @@
-s3cmd sync --acl-public *  s3://static.echonest.com/FreshFace/
+s3cmd sync --acl-public *  --exclude quick_releases.js --exclude new_releases.js s3://static.echonest.com/FreshFace/
 

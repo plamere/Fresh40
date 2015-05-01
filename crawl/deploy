@@ -1,1 +1,2 @@
-rsync -avz . echonest@labs2.echonest.com:apps/FreshFaces/
+rsync -avz new_releases.py crongo echonest@labs2.echonest.com:apps/FreshFaces/
+#rsync -avz *.pkl *.js new_releases.py crongo echonest@labs2.echonest.com:apps/FreshFaces/

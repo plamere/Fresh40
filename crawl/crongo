@@ -1,3 +1,4 @@
 cd /home/echonest/apps/FreshFaces
 python new_releases.py --silent
-s3cmd sync --acl-public *js  s3://static.echonest.com/FreshFaces/
+s3cmd sync --acl-public *js  s3://static.echonest.com/FreshFace/
+cp new_releases.js yesterday.js

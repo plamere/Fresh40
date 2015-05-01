@@ -118,31 +118,56 @@ function showAlbum(tdiv, album, which) {
     var rankdiv = $("<div>");
     var rankCounter = $("<div>")
         .addClass('t40-rank')
-        .text(which + 1);
+        .text(which + 1)
+        .attr('title', 'Track rank');
+
 
     var rankinfo = $("<span>")
         .addClass('t40-rankinfo')
         .attr('title', "Yesterday's rank");
 
     var iconclass =  "glyphicon-resize-horizontal";
+    var directionTitle = "Track is stable";
     if (album.delta_rank == 'up') {
         iconclass = "glyphicon-chevron-up green";
+        directionTitle = 'Track is rising';
     } else if (album.delta_rank == 'down') {
         iconclass = "glyphicon-chevron-down red";
+        directionTitle = 'Track is falling';
     }
+
+
+    if (album.prev_rank > 39) {
+        var diricon = $("<span>")
+            .addClass('glyphicon glyphicon-flash green')
+        rankinfo.append(diricon);
+        diricon.attr('title', 'New to the Fresh Forty');
+    }
+
     var diricon = $("<span>")
         .addClass('glyphicon')
         .addClass(iconclass)
+        .attr('title', directionTitle);
 
     rankinfo.append(diricon);
+
     var rrank = $("<span>");
     rrank.addClass('rrank');
     if (album.prev_rank >= 0) {
-        rrank.text(album.prev_rank + 1);
+        rrank.text(album.prev_rank + 1)
+         .attr('title', "Yesterday's rank");
     } else {
         rrank.text('-');
     }
     rankinfo.append(rrank);
+
+    if (album.biggest_climber) {
+        var climb_icon = $("<span>")
+            .addClass('spacer glyphicon glyphicon-fire red')
+        rankinfo.append(climb_icon);
+        climb_icon.attr('title', "Today's biggest rise");
+        rankinfo.append(climb_icon);
+    }
     rankdiv.append(rankCounter);
     rankdiv.append(rankinfo);
 
@@ -207,6 +232,19 @@ function showAlbums() {
     var div = $("#albums");
     div.empty();
     var albums = newReleases.albums;
+
+    var biggestDelta = 0;
+    var biggest = null;
+    _.each(albums, function(album, which) {
+        var delta = album.prev_rank - album.rank;
+        if (delta > biggestDelta) {
+            biggestDelta = delta;
+            biggest = album;
+        }
+    });
+
+    biggest.biggest_climber = true;
+
     _.each(albums, function(album, which) {
         showAlbum(div, album, which);
     });

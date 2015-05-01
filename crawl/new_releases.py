@@ -15,7 +15,7 @@ max_albums = 5000
 max_albums = 100000
 max_tracks = 1
 
-spotify = spotipy.Spotify()
+spotify = spotipy.Spotify(requests_session=False)
 
 artist_names = set()
 fresh_album_ids = set()
@@ -256,7 +256,6 @@ def get_days_on_chart(album):
     try:
         rel = datetime.datetime.strptime(album['release_date'], '%Y-%m-%d').date()
         dt = now - rel
-        print now, rel, dt, dt.days
         return dt.days
     except:
         return 1000
