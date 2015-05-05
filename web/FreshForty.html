@@ -153,12 +153,12 @@ function showAlbum(tdiv, album, which) {
 
     var rrank = $("<span>");
     rrank.addClass('rrank');
-    if (album.prev_rank >= 0) {
+    if (album.days_on_chart < 2) {
+        rrank.text('-');
+    } else {
         rrank.text(album.prev_rank + 1)
          .attr('title', "Yesterday's rank");
-    } else {
-        rrank.text('-');
-    }
+    } 
     rankinfo.append(rrank);
 
     if (album.biggest_climber) {
@@ -236,6 +236,9 @@ function showAlbums() {
     var biggestDelta = 0;
     var biggest = null;
     _.each(albums, function(album, which) {
+        if (album.prev_rank == -1) {
+            album.prev_rank = albums.length + 1;
+        }
         var delta = album.prev_rank - album.rank;
         if (delta > biggestDelta) {
             biggestDelta = delta;
