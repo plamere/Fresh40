@@ -1,4 +1,5 @@
 import spotipy
+from spotipy import util
 import simplejson as json
 import pprint as pp
 import sys
@@ -15,7 +16,16 @@ max_albums = 5000
 max_albums = 100000
 max_tracks = 1
 
-spotify = spotipy.Spotify(requests_session=False)
+scope = ''
+token = util.prompt_for_user_token('plamere', scope)
+
+if token:
+    spotify = spotipy.Spotify(auth=token)
+else:
+    print "can't authenticate for twitter/spotify" 
+    sys.exit(0)
+
+# spotify = spotipy.Spotify(requests_session=False)
 
 artist_names = set()
 fresh_album_ids = set()
